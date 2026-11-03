@@ -21,6 +21,9 @@ class View:
         # Controller
         self.controller = None
 
+        #listView
+        self.ListView = None
+
     def show_alert(self, messaggio):
         self.alert.show_alert(messaggio)
 
@@ -36,10 +39,15 @@ class View:
         self.txt_titolo = ft.Text(value="Biblioteche di Torino", size=38, weight=ft.FontWeight.BOLD)
 
         # --- Sezione 2: Filtraggio ---
-        # TODO
+        self._dd_biblioteche = ft.Dropdown(label="Biblioteca",
+            on_change = self.controller.on_biblioteca_change)
+        self._dd_genere = ft.Dropdown(label="Genere",
+            on_change = self.controller.on_genere_change)
 
         # Sezione 3: Libri
-        # TODO
+        self.list_view = ft.ListView(expand = True, spacing = 15)
+        btn = ft.Button(content = "Mostra libri", onclick = self._contoller.handler_mostra_libri)
+
 
         # --- Toggle Tema ---
         self.toggle_cambia_tema = ft.Switch(label="Tema scuro", value=True, on_change=self.cambia_tema)
