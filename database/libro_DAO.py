@@ -13,20 +13,19 @@ class LibroDAO:
         pass
 
     def read_libri_biblioteca(self):
-        db = DBConnect()
-        cnx = db.get_connection()
+        cnx = DBConnect.get_connection()
         if cnx is not None:
-            query = "SELECT * FROM libri"
+            query = "SELECT * FROM libro"
             cursor = cnx.cursor()
-            cursor.excute(query)
+            cursor.execute(query)
             libri = []
             for row in cursor:
                 libro = Libro(*row)
                 libri.append(libro)
-
-            else:
-                AlertManager.show_alert("Errore nel database!")
             cursor.close()
-            cnx.close()
-            return libri
+        else:
+            AlertManager.show_alert("Errore nel database!")
+
+        cnx.close()
+        return libri
 

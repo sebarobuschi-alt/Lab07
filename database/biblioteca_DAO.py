@@ -11,22 +11,23 @@ class BibliotecaDAO:
         pass
 
     def read_biblioteche(self):
-        db = DBConnect()
-        cnx = db.get_connection()
+        biblioteche = []
+        cnx = DBConnect.get_connection()
+
         if cnx is not None:
             query = "SELECT * FROM biblioteca"
             cursor = cnx.cursor()
-            cursor.excute(query)
-            biblioteche = []
+            cursor.execute(query)
+
             for row in cursor:
                 biblioteca = Biblioteca(*row)
                 biblioteche.append(biblioteca)
 
-            else:
-                AlertManager.show_alert("Errore nel database!")
-
             cursor.close()
             cnx.close()
-            return biblioteche
+        else:
+            return None
+
+        return biblioteche
 
 

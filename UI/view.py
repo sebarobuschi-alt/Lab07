@@ -1,4 +1,8 @@
+from tkinter import CENTER
+
 import flet as ft
+from flet import MainAxisAlignment
+
 from UI.alert import AlertManager
 
 '''
@@ -14,6 +18,7 @@ class View:
         self.page.title = "Lab07"
         self.page.horizontal_alignment = "center"
         self.page.theme_mode = ft.ThemeMode.DARK
+        self.page.scroll = ft.ScrollMode.AUTO
 
         # Alert
         self.alert = AlertManager(page)
@@ -40,17 +45,20 @@ class View:
 
         # --- Sezione 2: Filtraggio ---
         self._dd_biblioteche = ft.Dropdown(label="Biblioteca",
-            on_change = self.controller.on_biblioteca_change)
+            on_select = self.controller.on_select)
         self._dd_genere = ft.Dropdown(label="Genere",
-            on_change = self.controller.on_genere_change)
+            on_select = self.controller.on_select)
+        row = ft.Row(controls = [self._dd_biblioteche, self._dd_genere], alignment = ft.MainAxisAlignment.CENTER,expand = True,spacing = 100 )
 
         # Sezione 3: Libri
-        self.list_view = ft.ListView(expand = True, spacing = 15)
-        btn = ft.Button(content = "Mostra libri", onclick = self._contoller.handler_mostra_libri)
+        self._list_view = ft.ListView(expand = True, spacing = 15)
+        btn = ft.Button(content = "Mostra libri", on_click = self.controller.handler_mostra_libri)
+
 
 
         # --- Toggle Tema ---
         self.toggle_cambia_tema = ft.Switch(label="Tema scuro", value=True, on_change=self.cambia_tema)
+
 
         # --- Layout della pagina ---
         self.page.add(
@@ -61,10 +69,12 @@ class View:
             ft.Divider(),
 
             # Sezione 2: Filtraggio
-            # TODO
+            row,
+            ft.Divider(),
 
-            # Sezione 3: Libri
-            # TODO
+            btn,
+            self._list_view
+
         )
 
         self.page.scroll = "adaptive"
